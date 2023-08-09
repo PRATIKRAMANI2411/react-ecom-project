@@ -1,14 +1,8 @@
-header a {
-  color: #ffff;
-  font-weight: bold;
-  text-decoration: none;
+.site-container{
+  min-height: 100vh;
 }
-header{
-  background-color: black;
-}
-
 main{
-  padding: 1rem;
+  flex: 1;
 }
 
 .products {
