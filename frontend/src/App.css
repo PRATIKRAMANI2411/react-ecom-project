@@ -4,6 +4,14 @@
 main{
   flex: 1;
 }
+.rating span{
+  color: #ffc000;
+}
+
+.btn-primary{
+  background-color: #ffc000;
+  color: #000000;
+}
 
 .products {
   display: flex;
