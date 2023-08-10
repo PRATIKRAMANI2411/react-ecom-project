@@ -9,6 +9,9 @@ import { useParams } from 'react-router-dom'
 import Rating from '../components/Rating';
 import Button from 'react-bootstrap/esm/Button';
 import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import { getError } from '../Utils';
 
 const reduser = (state, action) => {
     switch (action.type) {
@@ -40,16 +43,17 @@ export default function ProductScreen() {
                 const results = await axios.get(`/api/products/slug/${slug}`);
                 dispatch({ type: 'FETCH_SUCCESS', payload: results.data });
             } catch (err) {
-                dispatch({ type: 'FETCH_FAIL', payload: err.message });
+                // console.log(err.response.data.message);
+                dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
             }
         }
         fatchData()
     }, [slug]);
 
     return (
-        loading ? <div>loading...</div>
-            : error ? <div>{error}</div>
-                :
+        loading ? <LoadingBox/>
+                        : error ? <MessageBox variant="danger">{error}</MessageBox>
+                            :
                 <div>
                     <Row>
                         <Col md={6}>
