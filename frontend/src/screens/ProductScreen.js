@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useReducer } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { getError } from '../Utils';
+import { Store } from '../Store';
 
 const reduser = (state, action) => {
     switch (action.type) {
@@ -50,10 +51,18 @@ export default function ProductScreen() {
         fatchData()
     }, [slug]);
 
+    const { state, dispatch: ctxDisptch } = useContext(Store);
+    const addToCartHendler = () => {
+        ctxDisptch({
+            type: 'CART_ADD_ITEM',
+            payload: { ...product, quantity: 1 },
+        })
+    }
+
     return (
-        loading ? <LoadingBox/>
-                        : error ? <MessageBox variant="danger">{error}</MessageBox>
-                            :
+        loading ? <LoadingBox />
+            : error ? <MessageBox variant="danger">{error}</MessageBox>
+                :
                 <div>
                     <Row>
                         <Col md={6}>
@@ -94,7 +103,7 @@ export default function ProductScreen() {
                                             {product.countInStock > 0 && (
                                                 <ListGroup.Item>
                                                     <div className="d-grid">
-                                                        <Button variant="primary" >Add to Cart </Button>
+                                                        <Button variant="primary" onClick={addToCartHendler} >Add to Cart </Button>
                                                     </div>
                                                 </ListGroup.Item>
                                             )}

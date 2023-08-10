@@ -1,12 +1,18 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from "react-router-bootstrap";
+import { Store } from './Store';
+import { useContext } from 'react';
+import Badge from 'react-bootstrap/esm/Badge';
 
 function App() {
+    const { state } = useContext(Store);
+    const { cart } = state;
     return (
         <BrowserRouter>
             <div className="d-flex flex-column site-container">
@@ -14,6 +20,12 @@ function App() {
                     <Container>
                         <LinkContainer to="/">
                             <Navbar.Brand>LUXE FASHION</Navbar.Brand>
+                        </LinkContainer>
+                        <LinkContainer to="/">
+                            <Nav className="me-auto" >
+                                <Link to="/cart" className="nav-link">cart</Link>
+                                {cart.cartItems.length > 0 && ( <Badge bg="danger">{cart.cartItems.length}</Badge> )}
+                            </Nav>
                         </LinkContainer>
                     </Container>
                 </Navbar>
