@@ -3,10 +3,9 @@ import axios from "axios";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Product from '../components/Product';
+import { Helmet } from 'react-helmet-async';
 
 const reduser = (state, action) => {
-    // console.log(action.payload)
-    // console.log(state, action)
     switch (action.type) {
         case 'FETCH_REQUEST':
             return { ...state, logging: true };
@@ -26,9 +25,7 @@ export default function HomeScreen() {
         loading: true,
         error: '',
     });
-    // console.log(products)
 
-    // const [products, Setproducts] = useState([]);
     useEffect(() => {
         const fatchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' });
@@ -44,6 +41,7 @@ export default function HomeScreen() {
     }, []);
     return (
         <div>
+            <Helmet><title>LUXE FASHION</title></Helmet>
             <h1>Featured Product</h1>
             <div className="products">
                 {
