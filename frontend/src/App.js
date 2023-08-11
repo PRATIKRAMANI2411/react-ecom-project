@@ -21,12 +21,12 @@ function App() {
                         <LinkContainer to="/">
                             <Navbar.Brand>LUXE FASHION</Navbar.Brand>
                         </LinkContainer>
-                        <LinkContainer to="/">
-                            <Nav className="me-auto" >
-                                <Link to="/cart" className="nav-link">cart</Link>
-                                {cart.cartItems.length > 0 && ( <Badge bg="danger">{cart.cartItems.length}</Badge> )}
-                            </Nav>
-                        </LinkContainer>
+                        <Nav className="me-auto" >
+                            <Link to="/cart" className="nav-link">
+                                cart
+                                {cart.cartItems.length > 0 && (<Badge pill bg="danger">{cart.cartItems.reduce((a,c) => c.quantity, 0)}</Badge>)}
+                            </Link>
+                        </Nav>
                     </Container>
                 </Navbar>
                 <main>

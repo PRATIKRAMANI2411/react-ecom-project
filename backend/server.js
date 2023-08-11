@@ -14,7 +14,16 @@ app.get('/api/products/slug/:slug', (req, res) => {
     } else {
         res.send(404).send("Product Not Found")
     }
-})
+});
+
+app.get('/api/products/:id', (req, res) => {
+    const product = data.products.find(x => x._id === req.params.id);
+    if (product) {
+        res.send(product);
+    } else {
+        res.send(404).send("Product Not Found")
+    }
+});
 
 const port = process.env.PORT || 5000;
 
