@@ -47,7 +47,7 @@ export default function HomeScreen() {
             <h1>Featured Product</h1>
             <div className="products">
                 {
-                    loading ? <LoadingBox/>
+                    loading ? <LoadingBox />
                         : error ? <MessageBox variant="danger">{error}</MessageBox>
                             :
                             <Row>
