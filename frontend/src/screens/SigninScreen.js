@@ -19,7 +19,7 @@ const SigninScreen = () => {
     const [password, setPassword] = useState("");
 
     const { state, dispatch: ctxDispatch } = useContext(Store);
-    const {userInfo} = state;
+    const { userInfo } = state;
 
     const submitHendler = async (e) => {
         e.preventDefault();
@@ -29,7 +29,6 @@ const SigninScreen = () => {
             localStorage.setItem('userInfo', JSON.stringify(data))
             navigate(redirect || '/');
         } catch (error) {
-            console.log("error...", error);
             toast.error(getError(error));
         }
     }
@@ -38,7 +37,7 @@ const SigninScreen = () => {
         if (userInfo) {
             navigate(redirect)
         }
-    },[userInfo, navigate, redirect])
+    }, [userInfo, navigate, redirect])
 
     return (
         <Container className="samll-container">

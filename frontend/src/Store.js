@@ -5,6 +5,7 @@ export const Store = createContext();
 const initialState = {
     userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
     cart: {
+        shippingAddress: localStorage.getItem('ahippingAddress') ? JSON.parse(localStorage.getItem('ahippingAddress')) : {},
         cartItems: localStorage.getItem('cartItem') ? JSON.parse(localStorage.getItem('cartItem')) : [],
     }
 }
@@ -36,7 +37,10 @@ function reducer(state, action) {
             return { ...state, userInfo: action.payload }
 
         case 'USER_SIGNOUT':
-            return { ...state, userInfo: null }
+            return { ...state, userInfo: null, cart: { cartItems: [], shippingAddress: {} } }
+
+        case 'SAVE_SHOPPING_ADDRESS':
+            return { ...state, cart: { ...state.cart, shippingAddress: action.payload } }
 
         default:
             return state;
