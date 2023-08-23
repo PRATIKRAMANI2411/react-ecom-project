@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import Col from 'react-bootstrap/esm/Col'
 import Row from 'react-bootstrap/esm/Row'
 import Card from 'react-bootstrap/Card';
@@ -8,9 +8,29 @@ import CheckoutSteps from '../components/CheckoutSteps'
 import { Store } from '../Store';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/esm/Button';
+import { toast } from 'react-toastify';
+import { getError } from '../Utils';
+import axios from 'axios';
+import LoadingBox from '../components/LoadingBox';
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case "CREATE_REQUEST":
+            return { ...state, loading: true }
+        case "CREATE_SUCCESS":
+            return { ...state, loading: false }
+        case "CREATE_FAIL":
+            return { ...state, loading: false }
+        default:
+            return state;
+    }
+}
 
 const PlaceOrderScreen = () => {
     const navigate = useNavigate()
+
+    const [{ loading }, dispatch] = useReducer(reducer, { loading: false, error: '' })
+
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart, userInfo } = state;
 
@@ -21,10 +41,35 @@ const PlaceOrderScreen = () => {
     cart.taxPrice = round2(0.15 * cart.itemsPrice);
     cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
 
-    const palceOrderHendle = () => { }
+    const palceOrderHendle = async () => {
+        try {
+            dispatch({ type: "CREATE_REQUEST" })
+            const { data } = await axios.post('/api/orders', {
+                orderItems: cart.cartItems,
+                shippingAddress: cart.shippingAddress,
+                paymentMethod: cart.paymentMethod,
+                itemsPrice: cart.itemsPrice,
+                shippingPrice: cart.shippingPrice,
+                taxPrice: cart.taxPrice,
+                totalPrice: cart.totalPrice
+            },
+                {
+                    headers: { authorization: `Bearer ${userInfo.token}` }
+                }
+            )
+            ctxDispatch({ type: 'CART_CLEAR' });
+            dispatch({ type: 'CREATE_SUCCESS' })
+            localStorage.removeItem('cartItems')
+            navigate(`/order/${data.order._id}`)
+        }
+        catch (err) {
+            dispatch({ type: 'CREATE_FAIL' })
+            toast.error(getError(err))
+        }
+    }
 
     useEffect(() => {
-        if (!cart.paymentMethos) {
+        if (!cart.paymentMethod) {
             navigate('/payment')
         }
     }, [cart, navigate])
@@ -53,7 +98,7 @@ const PlaceOrderScreen = () => {
                         <Card.Body>
                             <Card.Title>Payment</Card.Title>
                             <Card.Text>
-                                <strong>Method: </strong>{cart.paymentMethos}
+                                <strong>Method: </strong>{cart.paymentMethod}
                             </Card.Text>
                             <Link to="/payment">Edit</Link>
                         </Card.Body>
@@ -116,6 +161,7 @@ const PlaceOrderScreen = () => {
                                     <div className="d-grid">
                                         <Button type="button" onClick={palceOrderHendle} disabled={cart.cartItems.length === 0}>Place Order</Button>
                                     </div>
+                                    {loading && <LoadingBox></LoadingBox>}
                                 </ListGroup.Item>
                             </ListGroup>
                         </Card.Body>
