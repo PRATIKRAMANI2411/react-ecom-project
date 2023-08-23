@@ -42,10 +42,10 @@ const PaymentMethodScreen = () => {
                     <h1 className="my-3">Payment Methos</h1>
                     <Form onSubmit={submitHendler}>
                         <div className="mb-3">
-                            <Form.Check type="radio" id="Paypal" label="Paypal" value="paypal" onChange={(e) => setPaymentmethod(e.target.value)} checked={paymentMethodName === "paypal"} />
+                            <Form.Check type="radio" id="paypal" label="paypal" value="paypal" onChange={(e) => setPaymentmethod(e.target.value)} checked={paymentMethodName === "paypal"} />
                         </div>
                         <div className="mb-3">
-                            <Form.Check type="radio" id="Stripe" label="Stripe" value="stripe" onChange={(e) => setPaymentmethod(e.target.value)} checked={paymentMethodName === "stripe"} />
+                            <Form.Check type="radio" id="stripe" label="stripe" value="stripe" onChange={(e) => setPaymentmethod(e.target.value)} checked={paymentMethodName === "stripe"} />
                         </div>
                         <div className="mb-3">
                             <Button type="submit">Continue</Button>
