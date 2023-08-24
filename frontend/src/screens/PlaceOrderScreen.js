@@ -111,14 +111,18 @@ const PlaceOrderScreen = () => {
                                     {
                                         cart.cartItems.map((item) => (
                                             <ListGroup.Item key={item._id}>
-                                                <Row>
-                                                    <Col md={6}>
-                                                        <img src={item.image} alt={item.name} className="img-fluid rounded img-thumbnail"></img>
-                                                        <Link to={`/product/${item.slug}`}> {item.name} </Link>
-                                                    </Col>
-                                                    <Col md={3}>{item.quantity}</Col>
-                                                    <Col md={3}>{item.price}</Col>
-                                                </Row>
+                                                <div className="order-place-item">
+                                                    <Row>
+                                                        <Col md={6}>
+                                                            <div className="order-place-img">
+                                                                <img src={item.image} alt={item.name} className="img-fluid rounded img-thumbnail"></img>
+                                                                <Link className="product-name" to={`/product/${item.slug}`}>{item.name}</Link>
+                                                            </div>
+                                                        </Col>
+                                                        <Col md={3}>{item.quantity}</Col>
+                                                        <Col md={3}>{item.price}</Col>
+                                                    </Row>
+                                                </div>
                                             </ListGroup.Item>
                                         ))
                                     }

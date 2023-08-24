@@ -36,12 +36,12 @@ export default function Product(props) {
                 <Link to={`/product/${product.slug}`}>
                     <Card.Title>{product.name}</Card.Title>
                 </Link>
-                <Rating rating={ product.rating } namReview={ product.numReviews } ></Rating>
+                <Rating rating={product.rating} namReview={product.numReviews} ></Rating>
                 <Card.Text>${product.price}</Card.Text>
-                {  
+                {
                     product.countInStock === 0 ? <Button variant='light'>Out of Stock</Button>
-                    : 
-                    <Button onClick={() => addCartHendler(product)} >Add to Cart</Button>
+                        :
+                        <Button onClick={() => addCartHendler(product)} >Add to Cart</Button>
                 }
             </Card.Body>
         </Card>

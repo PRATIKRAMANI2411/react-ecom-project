@@ -53,3 +53,10 @@ main{
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
 }
+
+.order-place-item .order-place-img .product-name{
+  text-decoration: none;
+  color: #404040;
+  margin-left: 5px;
+  font-weight: 700;
+}

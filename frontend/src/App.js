@@ -33,7 +33,7 @@ function App() {
     return (
         <BrowserRouter>
             <div className="d-flex flex-column site-container">
-            <ToastContainer position='bottom-center' limit={1} />
+                <ToastContainer position='bottom-center' limit={1} />
                 <Navbar bg="dark" data-bs-theme="dark">
                     <Container>
                         <LinkContainer to="/">
@@ -42,7 +42,7 @@ function App() {
                         <Nav className="me-auto" >
                             <Link to="/cart" className="nav-link">
                                 cart
-                                {cart.cartItems.length > 0 && (<Badge pill bg="danger">{cart.cartItems.reduce((a, c) => c.quantity, 0)}</Badge>)}
+                                {cart.cartItems.length > 0 && (<Badge pill bg="danger">{cart.cartItems.reduce((a, c) => a + c.quantity, 0)}</Badge>)}
                             </Link>
                             {userInfo ?
                                 <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
@@ -52,8 +52,10 @@ function App() {
                                     <LinkContainer to="/orderhistory">
                                         <NavDropdown.Item>Order History</NavDropdown.Item>
                                     </LinkContainer>
-                                    <NavDropdown.Divider/>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item>
                                         <Link className="dropdwon-item" to="#signout" onClick={signoutHendler} >Sign Out</Link>
+                                    </NavDropdown.Item>
                                 </NavDropdown>
 
                                 :
