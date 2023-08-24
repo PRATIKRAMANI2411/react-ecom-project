@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import Order from '../models/orderModel.js';
 import asyncHandler from "express-async-handler";
 
-import { generateToken, isAuth } from "../utils.js";
+import { isAuth } from "../utils.js";
 
 const orderRouter = express.Router();
 
@@ -23,6 +23,19 @@ orderRouter.post(
         });
         const order = await newOrder.save();
         resp.status(201).send({ message: 'New order Created', order })
+    })
+);
+
+orderRouter.get(
+    '/:id',
+    isAuth,
+    asyncHandler(async (req, resp) => {
+        const order = await Order.findById(req.params.id);
+        if (order) {
+            resp.send(order)
+        } else {
+            resp.status(404).send({ message: 'Order Not Found' })
+        }
     })
 );
 

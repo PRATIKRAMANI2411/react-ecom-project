@@ -17,6 +17,7 @@ export const generateToken = (user) => {
 
 export const isAuth = (req, res, next) => {
     const authorization = req.headers.authorization;
+    console.log("authorization..", authorization);
     if (authorization) {
         const token = authorization.slice(7, authorization.length);
         jwt.verify(token, process.env.JWT_SECRET, (err, decode) => {
