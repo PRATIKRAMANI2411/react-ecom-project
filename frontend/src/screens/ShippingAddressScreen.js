@@ -13,7 +13,6 @@ const ShippingAddressScreen = () => {
     const navigate = useNavigate();
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { userInfo, cart: { shippingAddress } } = state;
-    console.log("shipping...", state);
 
     const [fullname, setFullname] = useState(shippingAddress.fullname || "");
     const [address, setAddress] = useState(shippingAddress.address || "");
