@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
 import Users from "../models/userModel.js";
-import { generateToken } from "../utils.js";
+import { generateToken, isAuth } from "../utils.js";
 
 const userRouter = express.Router();
 
@@ -38,6 +38,32 @@ userRouter.post('/signup', asyncHandler(async (req, resp) => {
     })
     // resp.status(401).send({ message: 'Invelid email or password' })
 })
+);
+
+userRouter.put(
+    '/profile',
+    isAuth,
+    asyncHandler(async (req, res) => {
+        const user = await Users.findById(req.user._id);
+        if (user) {
+            user.name = req.body.name || user.name;
+            user.email = req.body.email || user.email;
+            if (req.body.password) {
+                user.password = bcrypt.hashSync(req.body.password, 8);
+            }
+
+            const updatedUser = await user.save();
+            res.send({
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                isAdmin: updatedUser.isAdmin,
+                token: generateToken(updatedUser),
+            });
+        } else {
+            res.status(404).send({ message: 'User not found' });
+        }
+    })
 );
 
 export default userRouter;
